@@ -1,4 +1,4 @@
-const ItemListCard = ({ img, text1, text2 }) => {
+const BannerCard = ({ img, text1, text2 }) => {
   return (
     <div className="flex flex-col items-center justify-end">
       <img className="w-20" src={img} alt="" />
@@ -9,4 +9,4 @@ const ItemListCard = ({ img, text1, text2 }) => {
     </div>
   );
 };
-export default ItemListCard;
+export default BannerCard;

@@ -1,32 +1,35 @@
 import logo from "../assets/logo-puma.svg";
 import lookUp from "../assets/glass.svg";
 import CartWidget from "./CartWidget";
+import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <header className="flex w-100 h-16 bg-[#181818] items-center justify-around">
-      <img className="h-3/5 " src={logo} alt="" />
+      <Link to={"/"}>
+        <img className="h-10 " src={logo} alt="" />
+      </Link>
       <nav>
         <ul className="flex gap-5">
           <li className="text-slate-50">
-            <a href="#">NUEVOS</a>
+            <Link to={"/"}> NUEVOS </Link>
           </li>
           <li className="text-slate-50">
-            <a href="#">Mujeres</a>
+            <Link to={"/gender/mujer"}>Mujeres</Link>
           </li>
           <li className="text-slate-50">
-            <a href="#">Hombres</a>
+            <Link to={"/gender/hombre"}>Hombres</Link>
           </li>
           <li className="text-slate-50">
-            <a href="#">Niños</a>
+            <Link to={"/category/shorts"}>Shorts</Link>
           </li>
           <li className="text-slate-50">
-            <a href="#">Deportes</a>
+            <Link to={"/category/zapatillas"}>Zapatillas</Link>
           </li>
           <li className="text-slate-50">
-            <a href="#">Colecciones</a>
+            <Link to={"/category/botines"}>Botines</Link>
           </li>
           <li className="text-slate-50">
-            <a href="#">SALE</a>
+            <Link to={"/"}>SALE</Link>
           </li>
         </ul>
       </nav>

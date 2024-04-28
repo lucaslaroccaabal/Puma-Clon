@@ -1,37 +1,33 @@
-import ItemListCard from "./ItemListCard";
+import { useEffect, useState } from "react";
+import arrayProductos from "./json/products.json";
+import ItemList from "./ItemList";
+import Banner from "./Banner";
+import { useParams } from "react-router-dom";
 
 const ItemListContainer = () => {
+  const [products, setProducts] = useState([]);
+  const params = useParams();
+  console.log(params);
+  useEffect(() => {
+    const promise = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(arrayProductos);
+      }, 2000);
+    });
+    promise.then((response) => {
+      const filteredResponse = response.filter(
+        (product) =>
+          product[params.type] === params.id || product[params.type] === ""
+      );
+      setProducts(filteredResponse);
+    });
+  }, [params]);
+
   return (
     <>
-      <h2 className="text-center text-2xl font-semibold m-5">
-        APROVECHA NUESTROS BENEFICIOS:
-      </h2>
-      <div className="flex mx-auto gap-8 w-4/5 justify-between">
-        <ItemListCard
-          img="https://img.segmentify.com/ba8cf7a9-a32a-43dc-9676-d76c34594ae0/u/62f7bc49-793a-483d-ac8c-9fa2045f2dfa.png"
-          text1="ENVÍO GRATIS"
-          text2="DESDE $ 79.999"
-        />
-        <ItemListCard
-          img="https://img.segmentify.com/ba8cf7a9-a32a-43dc-9676-d76c34594ae0/u/0fc16469-3ae7-42e1-8f13-2735f6b8695c.png"
-          text1="RETIRO EN SUCURSALES ANDREANI"
-          text2="EN TODO EL PAÍS"
-        />
-        <ItemListCard
-          img="https://img.segmentify.com/ba8cf7a9-a32a-43dc-9676-d76c34594ae0/u/cf7fedf8-6923-43d9-8015-1e847b653bab.png"
-          text1="DEVOLUCIÓN GRATIS"
-          text2="HASTA 30 DÍAS"
-        />
-        <ItemListCard
-          img="https://img.segmentify.com/ba8cf7a9-a32a-43dc-9676-d76c34594ae0/u/4545b827-1528-4174-ba7f-5948a318af75.png"
-          text1="HASTA 3 CUOTAS SIN INTERÉS"
-          text2="DESDE $69.000 VISA, MASTERCARD"
-        />
-        <ItemListCard
-          img="https://img.segmentify.com/ba8cf7a9-a32a-43dc-9676-d76c34594ae0/u/4545b827-1528-4174-ba7f-5948a318af75.png"
-          text1="HASTA 6 CUOTAS SIN INTERÉS"
-          text2="DESDE $119.000 VISA, MASTERCARD"
-        />
+      <Banner />
+      <div className="mt-16 grid grid-cols-4 gap-x-3 gap-y-10 px-48">
+        <ItemList products={products} />
       </div>
     </>
   );
