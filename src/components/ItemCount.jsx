@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-
-const ItemCount = ({ stock }) => {
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
+import { Link } from "react-router-dom";
+const ItemCount = ({ item }) => {
+  const { addItem } = useContext(CartContext);
   const [contador, setContador] = useState(0);
-  const [itemStock, setItemStock] = useState(stock);
+  const [visible, setVisible] = useState(true);
+  const [itemStock, setItemStock] = useState(item.stock);
   const increment = () => {
     if (contador < itemStock) setContador(contador + 1);
   };
@@ -11,16 +15,29 @@ const ItemCount = ({ stock }) => {
   };
   const onAdd = () => {
     if (contador > 0) {
+      addItem(item, contador);
       setItemStock(itemStock - contador);
       setContador(0);
       console.log("Agregaste " + contador + " productos");
     }
   };
   useEffect(() => {
-    setItemStock(stock);
+    setItemStock(item.stock);
     setContador(0);
-  }, [stock]);
+  }, [item.stock]);
 
+  if (!visible) {
+    return (
+      <Link to={"/cart"}>
+        <button
+          onClick={onAdd}
+          className="text-xl text-yellow-700 rounded p-2 border border-2 border-slate-300 w-fit "
+        >
+          Finalizar la Compra
+        </button>
+      </Link>
+    );
+  }
   return (
     <div className="flex py-8 gap-5 h-28">
       <div className="flex items-center px-2 gap-8 rounded border border-2 border-slate-300 w-fit">
@@ -33,7 +50,10 @@ const ItemCount = ({ stock }) => {
         </button>
       </div>
       <button
-        onClick={onAdd}
+        onClick={() => {
+          onAdd();
+          setVisible(false);
+        }}
         className="text-xl text-yellow-700 rounded p-2 border border-2 border-slate-300 w-fit "
       >
         Agregar Al Carrito

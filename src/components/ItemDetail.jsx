@@ -6,7 +6,7 @@ const ItemDetail = ({ item }) => {
       <img className="row-span-3" src={item.img} alt={item.nombre} />
       <h1 className="text-5xl">{item.nombre}</h1>
       <p className="text-xl">${item.precio}</p>
-      <ItemCount stock={item.stock} />
+      <ItemCount item={item} />
     </div>
   );
 };

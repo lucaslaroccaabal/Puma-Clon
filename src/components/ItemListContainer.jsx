@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react";
-import arrayProductos from "./json/products.json";
 import ItemList from "./ItemList";
 import Banner from "./Banner";
 import { useParams } from "react-router-dom";
-
+import PumaSale from "./PumaSale";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
   const params = useParams();
-  console.log(params);
+  //firestore
   useEffect(() => {
-    const promise = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(arrayProductos);
-      }, 2000);
-    });
-    promise.then((response) => {
-      const filteredResponse = response.filter(
+    const db = getFirestore();
+    const colRef = collection(db, "items");
+    getDocs(colRef).then((snapshot) => {
+      const array = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const filteredArray = array.filter(
         (product) =>
           product[params.type] === params.id || product[params.type] === ""
       );
-      setProducts(filteredResponse);
+      setProducts(filteredArray);
     });
   }, [params]);
-
   return (
     <>
+      <PumaSale />
       <Banner />
       <div className="mt-16 grid grid-cols-4 gap-x-3 gap-y-10 px-48">
         <ItemList products={products} />
